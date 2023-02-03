@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import hamburger from "../images/icon-hamburger.svg";
 
 const Navbar = () => {
+  const [isNavExpanded, setIsNavExpanded] = useState(false);
   return (
     <nav className="navbar">
       <div className="nav-logo">
@@ -9,7 +11,27 @@ const Navbar = () => {
           <span>Homing Estate</span>
         </Link>
       </div>
-      <div className="nav-links-container">
+
+      <div className="nav-toggle">
+        <button
+          className="btn btn-toggle"
+          onClick={() => {
+            setIsNavExpanded(!isNavExpanded);
+          }}
+        >
+          <p className={isNavExpanded ? "noneDisplay" : "blockDisplay"}>☰</p>
+
+          <p className={isNavExpanded ? "blockDisplay" : "noneDisplay"}>X</p>
+        </button>
+      </div>
+
+      <div
+        className={
+          isNavExpanded
+            ? "nav-links-container nav-links-container-mobile"
+            : "nav-links-container"
+        }
+      >
         <ul className="nav-links">
           <li>
             <Link to="/buy">Buy</Link>
