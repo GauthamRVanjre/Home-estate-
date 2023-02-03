@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import hamburger from "../images/icon-hamburger.svg";
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);

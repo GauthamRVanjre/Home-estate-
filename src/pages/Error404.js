@@ -5,7 +5,7 @@ import errorNotFound from "../images/pageNotFound.jpg";
 const Error404 = () => {
   return (
     <>
-      <div className="center-div">
+      <div style={{ height: "80vh" }} className="center-div">
         <h1>Are you Lost?</h1>
         <img src={errorNotFound} alt="error not found" />
         <Link to="/">Go To Home page</Link>
