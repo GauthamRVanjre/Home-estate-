@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Banner = ({
   purpose,
@@ -30,7 +31,7 @@ const Banner = ({
           {desc2}
         </p>
         <button className="btn btn-toggle">
-          <a href={linkName}>{buttonText}</a>
+          <Link to={linkName}>{buttonText}</Link>
         </button>
       </div>
     </div>

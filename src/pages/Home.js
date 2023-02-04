@@ -7,6 +7,8 @@ import { baseUrl, fetchApi } from "../utils/fetchApi";
 const Home = () => {
   const [rentalHomes, setRentalHomes] = useState([]);
   const [buyingHomes, setBuyingHomes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const request = axios.CancelToken.source();
@@ -22,6 +24,8 @@ const Home = () => {
 
       setBuyingHomes(buyingHomesData.hits);
       console.log(buyingHomes);
+      setIsLoading(false);
+      setError(false);
     };
 
     fetchHomesDetails();
@@ -31,53 +35,64 @@ const Home = () => {
       request.cancel();
     };
   }, []);
-  return (
-    <div style={{ marginTop: "40px" }} className="center-div">
-      <Banner
-        purpose="RENT A HOME"
-        title1="Rental Homes for"
-        title2="Everyone"
-        desc1=" Explore from Apartments, builder floors, villas"
-        desc2="and more"
-        buttonText="Explore Renting"
-        linkName="/rent"
-        imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
-      />
-      <div className="homeList">
-        <div className="row">
-          {rentalHomes.map((rentalHome) => {
-            return (
-              <div className="col-sm-12 col-md-6 col-lg-4">
-                <HomeCard home={rentalHome} />
-              </div>
-            );
-          })}
+  if (isLoading)
+    return (
+      <div className="App-header">
+        <div className="spinner-border text-primary " role="status">
+          <span className="visually-hidden">Loading...</span>
         </div>
       </div>
-      <Banner
-        purpose="BUY A HOME"
-        title1=" Find, Buy & Own Your"
-        title2="Dream Home"
-        desc1=" Explore from Apartments, land, builder floors,"
-        desc2=" villas and more"
-        buttonText="Explore Buying"
-        linkName="/buy"
-        imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
-      />
+    );
+  else if (error)
+    return <h1 className="App-header">Something went wrong...</h1>;
+  else
+    return (
+      <div style={{ marginTop: "40px" }} className="center-div">
+        <Banner
+          purpose="RENT A HOME"
+          title1="Rental Homes for"
+          title2="Everyone"
+          desc1=" Explore from Apartments, builder floors, villas"
+          desc2="and more"
+          buttonText="Explore Renting"
+          linkName="/rent"
+          imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/145426814/33973352624c48628e41f2ec460faba4"
+        />
+        <div className="homeList">
+          <div className="row">
+            {rentalHomes.map((rentalHome) => {
+              return (
+                <div className="col-sm-12 col-md-6 col-lg-4">
+                  <HomeCard home={rentalHome} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <Banner
+          purpose="BUY A HOME"
+          title1=" Find, Buy & Own Your"
+          title2="Dream Home"
+          desc1=" Explore from Apartments, land, builder floors,"
+          desc2=" villas and more"
+          buttonText="Explore Buying"
+          linkName="/buy"
+          imageUrl="https://bayut-production.s3.eu-central-1.amazonaws.com/image/110993385/6a070e8e1bae4f7d8c1429bc303d2008"
+        />
 
-      <div className="homeList">
-        <div className="row">
-          {buyingHomes.map((buyingHome) => {
-            return (
-              <div className="col-sm-12 col-md-6 col-lg-4">
-                <HomeCard home={buyingHome} />
-              </div>
-            );
-          })}
+        <div className="homeList">
+          <div className="row">
+            {buyingHomes.map((buyingHome) => {
+              return (
+                <div className="col-sm-12 col-md-6 col-lg-4">
+                  <HomeCard home={buyingHome} />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default Home;
