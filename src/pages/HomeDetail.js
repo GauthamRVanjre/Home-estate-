@@ -8,8 +8,8 @@ const HomeDetail = () => {
   const [error, setError] = useState(false);
   let Homeid = useParams();
   Homeid = Homeid.id.slice(1);
-  console.log(Homeid);
   const [HomeData, setHomeData] = useState({});
+  console.log("Home ID" + HomeData.id);
 
   const fetchHomeDetails = async () => {
     const res = await fetchApi(
@@ -41,7 +41,7 @@ const HomeDetail = () => {
   } else {
     return (
       <>
-        <div className="row">
+        <div key={HomeData.id} className="row">
           <div className="col-sm-12 col-md-6 col-lg-4">
             <div className="home-img-container">
               <div className="img-container">
@@ -51,6 +51,7 @@ const HomeDetail = () => {
                 />
               </div>
               <div className="fav-btn-container">
+                {}
                 <button className="btn btn-primary">Add to Favorites</button>
               </div>
             </div>

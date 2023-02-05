@@ -4,6 +4,7 @@ import No_image from "../images/no_image.jpg";
 
 const HomeCard = ({
   home: {
+    id,
     coverPhoto,
     price,
     rentFrequency,
@@ -16,7 +17,7 @@ const HomeCard = ({
 }) => {
   return (
     <Link to={`/detail/:${externalID}`}>
-      <div class="card">
+      <div key={id} class="card">
         <img
           src={coverPhoto ? coverPhoto.url : No_image}
           class="card-img-top"

@@ -12,7 +12,9 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const isLoggedIn = useSelector((state) => state.isLogin);
+  const isLoggedIn = useSelector((state) => state.login);
+
+  console.log(isLoggedIn);
 
   useEffect(() => {
     const request = axios.CancelToken.source();

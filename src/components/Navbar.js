@@ -6,7 +6,7 @@ import { auth } from "../firebase";
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
-  const isLoggedIn = useSelector((state) => state.isLogin);
+  const isLoggedIn = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
   const signOutUser = () => {
