@@ -1,8 +1,25 @@
+import { signOut } from "firebase/auth";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase";
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
+  const isLoggedIn = useSelector((state) => state.isLogin);
+  const dispatch = useDispatch();
+
+  const signOutUser = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch({ type: "LOGOUT" });
+        console.log("user logged out");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <nav className="navbar">
       <div className="nav-logo">
@@ -40,6 +57,13 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/favorites">Favorites</Link>
+          </li>
+          <li>
+            {isLoggedIn ? (
+              <button onClick={signOutUser}>Log out</button>
+            ) : (
+              <Link to="/login">Login</Link>
+            )}
           </li>
         </ul>
       </div>

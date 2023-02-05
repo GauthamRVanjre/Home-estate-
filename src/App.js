@@ -7,6 +7,8 @@ import RentProperty from "./pages/RentProperty";
 import Navbar from "./components/Navbar";
 import Error404 from "./pages/Error404";
 import HomeDetail from "./pages/HomeDetail";
+import Login from "./pages/Login";
+import favorites from "./pages/favorites";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/" exact component={Home} />
         <Route path="/buy" exact component={BuyProperty} />
         <Route path="/rent" exact component={RentProperty} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/favorites" component={favorites} />
         <Route exact path="/detail/:id" component={HomeDetail} />
         <Route component={Error404} />
       </Switch>
