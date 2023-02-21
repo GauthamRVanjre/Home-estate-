@@ -1,42 +1,65 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import No_image from "../images/no_image.jpg";
+import { ADD, REMOVE } from "../redux/action/favoriteAction";
 
-const HomeCard = ({
-  home: {
-    id,
-    coverPhoto,
-    price,
-    rentFrequency,
-    rooms,
-    baths,
-    title,
-    area,
-    externalID,
-  },
-}) => {
+const HomeCard = ({ home }) => {
+  const favoriteHomesData = useSelector(
+    (state) => state.favoriteHomes.favorites
+  );
+  const dispatch = useDispatch();
+
+  const removeFavorite = (id) => {
+    dispatch(REMOVE(id));
+  };
+
+  const addToFavorite = (item) => {
+    dispatch(ADD(item));
+  };
+
   return (
-    <Link to={`/detail/:${externalID}`}>
-      <div key={id} class="card">
+    <div key={home.id} class="card">
+      <Link to={`/detail/:${home.externalID}`}>
         <img
-          src={coverPhoto ? coverPhoto.url : No_image}
+          src={home.coverPhoto ? home.coverPhoto.url : No_image}
           class="card-img-top"
           alt="cover img"
         />
-        <div class="card-body">
-          <p style={{ fontWeight: "700" }} className="card-title">
-            {price} AED
-            {rentFrequency ? `/${rentFrequency}` : ""}
+      </Link>
+      <div class="card-body">
+        <p style={{ fontWeight: "700" }} className="card-title">
+          {home.price} AED
+          {home.rentFrequency ? `/${home.rentFrequency}` : ""}
+        </p>
+        <div class="card-text">
+          <p>
+            {home.title.length > 50
+              ? home.title.substring(0, 50) + "..."
+              : home.title}
           </p>
-          <div class="card-text">
-            <p>{title.length > 50 ? title.substring(0, 50) + "..." : title}</p>
-            <div className="card-feature">{rooms} bedroom</div>
-            <div className="card-feature">{baths} bathroom</div>
-            <div className="card-feature">{area} SQFT</div>
-          </div>
+          <div className="card-feature">{home.rooms} bedroom</div>
+          <div className="card-feature">{home.baths} bathroom</div>
+          <div className="card-feature">{home.area} SQFT</div>
         </div>
+
+        {favoriteHomesData.find((item) => item.id === home.id) ? (
+          <button
+            className="fav-btn-container btn btn-danger"
+            onClick={() => removeFavorite(home.id)}
+          >
+            Remove from favorites
+          </button>
+        ) : (
+          <button
+            className="fav-btn-container btn btn-primary"
+            onClick={() => addToFavorite(home)}
+          >
+            Add to favorites
+          </button>
+        )}
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -6,7 +6,8 @@ import { auth } from "../firebase";
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
-  const isLoggedIn = useSelector((state) => state.login);
+  const isLoggedIn = useSelector((state) => state.login.isLogin);
+  console.log(isLoggedIn);
   const dispatch = useDispatch();
 
   const signOutUser = () => {
@@ -56,7 +57,7 @@ const Navbar = () => {
             <Link to="/rent">Rent</Link>
           </li>
           <li>
-            <Link to="/favorites">Favorites</Link>
+            <Link to="/Favorites">Favorites</Link>
           </li>
           <li>
             {isLoggedIn ? (

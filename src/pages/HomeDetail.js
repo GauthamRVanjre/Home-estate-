@@ -6,11 +6,16 @@ import No_image from "../images/no_image.jpg";
 const HomeDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [HomeData, setHomeData] = useState({});
+
+  /* This is a react hook that is used to get the id of the home from the url. and have removed the colon from from the id inorder to fetch data */
   let Homeid = useParams();
   Homeid = Homeid.id.slice(1);
-  const [HomeData, setHomeData] = useState({});
   console.log("Home ID" + HomeData.id);
 
+  /* This is a redux hook that is used to get the state of login status the redux store. */
+
+  /* This is a function that is used to fetch the home details from the api. */
   const fetchHomeDetails = async () => {
     const res = await fetchApi(
       `${baseUrl}/properties/detail?externalID=${Homeid}`
@@ -26,7 +31,7 @@ const HomeDetail = () => {
 
   useEffect(() => {
     fetchHomeDetails();
-  }, []);
+  }, [Homeid]);
 
   if (isLoading) {
     return (
@@ -50,10 +55,6 @@ const HomeDetail = () => {
                   alt="Home pic"
                 />
               </div>
-              <div className="fav-btn-container">
-                {}
-                <button className="btn btn-primary">Add to Favorites</button>
-              </div>
             </div>
           </div>
           <div className="col-sm-12 col-md-6 col-lg-8">
@@ -70,24 +71,28 @@ const HomeDetail = () => {
                 <span className="homeDetails">{HomeData.rooms} bedroom</span>
                 <span className="homeDetails">{HomeData.baths} bathroom</span>
                 <span className="homeDetails">{HomeData.area} SQFT</span>
-                {HomeData.category?.length
-                  ? HomeData.category.map((category) => (
-                      <span className="homeDetails">{category.name}</span>
-                    ))
-                  : ""}
+                {HomeData.category?.length ? (
+                  HomeData.category.map((category) => (
+                    <span className="homeDetails">{category.name}</span>
+                  ))
+                ) : (
+                  <span className="App-header">Found Nothing</span>
+                )}
               </div>
               <h5 style={{ marginTop: "10px" }}>Amenities:</h5>
 
               <div className="home-details-container">
-                {HomeData.amenities?.length
-                  ? HomeData.amenities?.map((item) =>
-                      item?.amenities?.map((amenity) => (
-                        <span className="homeDetails" key={amenity.text}>
-                          {amenity.text}
-                        </span>
-                      ))
-                    )
-                  : ""}
+                {HomeData.amenities?.length ? (
+                  HomeData.amenities?.map((item) =>
+                    item?.amenities?.map((amenity) => (
+                      <span className="homeDetails" key={amenity.text}>
+                        {amenity.text}
+                      </span>
+                    ))
+                  )
+                ) : (
+                  <span className="App-header">Found Nothing</span>
+                )}
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import HomeCard from "../components/HomeCard";
+import InputArea from "../components/InputArea/InputArea";
 import { baseUrl, fetchApi } from "../utils/fetchApi";
 
 const BuyProperty = () => {
@@ -8,14 +9,39 @@ const BuyProperty = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // to temporarily display a message while data is getting fetched
+  const [loadMessage, setLoadMessage] = useState(true);
+
+  /* Creating a state variable called filters, and a function called setFilters here we store the filters applied */
+  const [filters, setFilters] = useState({
+    priceMax: "",
+    furnishingStatus: "",
+    sort: "",
+  });
+
+  /**
+   * It takes a parameter called filters, and then it calls the setFilters function, passing in the
+   * filters parameter.
+   * @param filters - An object containing the filters that you want to apply to the data.
+   */
+  const getFilteredData = (filters) => {
+    setFilters(filters);
+  };
+
+  console.log("filters", filters);
+
   useEffect(() => {
     const request = axios.CancelToken.source();
     const fetchHomesDetails = async () => {
+      setLoadMessage(true);
       const buyHomeData = await fetchApi(
-        `${baseUrl}/properties/list?locationExternalIDs=5002,6020&purpose=for-sale&hitsPerPage=30`
+        `${baseUrl}/properties/list?locationExternalIDs=5002,6020&purpose=for-sale&hitsPerPage=30&priceMax=${filters.priceMax}
+        &furnishingStatus=${filters.furnishingStatus} 
+        &sort=${filters.sort}`
       );
 
       setBuyProperty(buyHomeData.hits);
+      setLoadMessage(false);
       console.log(buyHomeData.hits);
       setIsLoading(false);
       setError(false);
@@ -27,7 +53,7 @@ const BuyProperty = () => {
     return () => {
       request.cancel();
     };
-  }, []);
+  }, [filters]);
   if (isLoading) {
     return (
       <div className="App-header">
@@ -41,9 +67,12 @@ const BuyProperty = () => {
   } else {
     return (
       <>
-        <h1 style={{ marginTop: "10px" }} className="App-header">
-          Purchase a property
-        </h1>
+        <InputArea getFilters={getFilteredData} />
+        {loadMessage ? (
+          <span className="App-header">Bringing Homes in a second...</span>
+        ) : (
+          " "
+        )}
         <div className="homeList">
           <div className="row">
             {buyProperty.map((buyHome) => (

@@ -12,7 +12,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const isLoggedIn = useSelector((state) => state.login);
+  const isLoggedIn = useSelector((state) => state.login.isLogin);
 
   console.log(isLoggedIn);
 
